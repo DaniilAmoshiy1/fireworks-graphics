@@ -8,8 +8,9 @@ from projectiles.spark import Spark
 
 class Game:
 
-    def __init__(self):
-        self.projectiles: list  = list()
+    def __init__(self, sparks_range=None):
+        self.projectiles: list = list()
+        self.sparks_range = sparks_range
 
         turtle.setup(800, 600)
         turtle.onkey(self.exit, "Escape")
@@ -61,7 +62,8 @@ class Game:
     
     def explode_rocket(self, rocket):
         coordinates = (rocket.xcor(), rocket.ycor())
-        for _ in range(randint(20, 30)):
+        min_sparks, max_sparks = self.sparks_range or (20, 30)
+        for _ in range(randint(min_sparks, max_sparks)):
             spark = Spark(*coordinates)
             self.projectiles.insert(0, spark)
 
